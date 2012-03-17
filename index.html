@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #topbar {
+            position: fixed;
+            background-color: #000000;
+            height: 28px;
+            opacity: 0.6;
+            position: fixed;
+            width: 100%;
+            z-index: 2;
+        }
+
+        #topbar button {
+            width: 80px;
+            margin: 4px;
+            height: 20px;
+            float: right;
+        }
+
+        #topbar span {
+            margin: 4px;
+            height: 20px;
+            color: #fff;
+            font-size: 16px;
+            float: left;
+        }
+
+        #editor-frame {
+            margin: 0 auto;
+            padding: 35px 0 0;
+            display: block;
+            width: 98%;
+        }
+
+        #editor {
+            width: 100%;
+            margin: 0;
+            height: 500px;
+            float: left;
+            font-size: 9pt;
+            font-family: Courier, "Courier New", monospace
+        }
+
+        pre {
+            float: left;
+            clear: both;
+        }
+
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+
+        function log(message) {
+            var text = $('#output').text();
+            $('#output').text(text + '\n' + message);
+        }
+
+        $(function() {
+            $('#editor').keydown(function(event) {
+                if (event.which == 9) {
+                    event.preventDefault();
+                }
+            });
+
+            $('button').click(function() {
+                var script = $("#editor").text();
+                try {
+                    eval.call(window, script);
+                } catch(e) {
+                    alert(e);
+                }
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+
+<div id="topbar">
+    <span>A js editor. put your js here and run. no local test.html any more</span>
+    <button>RUN</button>
+</div>
+
+<div id="editor-frame">
+    <div id="editor" contentEditable="true"></div>
+</div>
+
+
+</body>
+</html>
