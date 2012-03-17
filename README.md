@@ -1,13 +1,6 @@
-A utility for [node](http://nodejs.org), ensure a directory exists, create it recursively if not.
+A js editor. put your js here and run. no local test.html any more
 
-## Example
+## Run
 
-    ensureDir('./temp/path/to/nonexist/dir/', 0755, function (err) {
-        if (err) return next(err);
-        // your code here!
-    });
-
-## Installation
-
-    $ npm install ensureDir
+    Go to http://www.RunMyJS.com/
 
