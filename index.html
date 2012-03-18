@@ -32,6 +32,14 @@
             float: left;
         }
 
+        #topbar span.error {
+            color: #f55;
+        }
+
+        #topbar span.info {
+            color: #5f5;
+        }
+
         #editor-frame {
             margin: 0 auto;
             padding: 35px 0 0;
@@ -42,7 +50,8 @@
         #editor {
             width: 100%;
             margin: 0;
-            height: 500px;
+            min-height: 300px;
+            outline-width: 0;
             float: left;
             font-size: 9pt;
             font-family: Courier, "Courier New", monospace
@@ -53,32 +62,53 @@
             clear: both;
         }
 
+
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>
 
-        function log(message) {
-            var text = $('#output').text();
-            $('#output').text(text + '\n' + message);
-        }
-
-        $(function() {
-            $('#editor').keydown(function(event) {
-                if (event.which == 9) {
-                    event.preventDefault();
+        (function($) {
+            var console = {
+                _log:function (message, cssClass) {
+                    var span = $('#topbar span');
+                    span.fadeOut('fast', function() {
+                        span.attr('class', cssClass).text(message).fadeIn('fast');
+                    });
+                },
+                log:function(message) {
+                    this._log(message, 'info');
+                },
+                error:function(message) {
+                    this._log(message, 'error');
                 }
-            });
 
-            $('button').click(function() {
-                var script = $("#editor").text();
-                try {
-                    eval.call(window, script);
-                } catch(e) {
-                    alert(e);
-                }
-            });
+            };
 
-        });
+
+            $(function() {
+                $('#editor').focus().keydown(function(event) {
+                    if (event.which == 9) {
+                        event.preventDefault();
+                    }
+                });
+
+                $('button').click(function() {
+                    var code = $.trim($('#editor').text());
+
+                    if (!code) {
+                        console.log('Please put your javascript code below');
+                        return;
+                    }
+
+                    try {
+                        eval.call(window, code);
+                    } catch(e) {
+                        console.error(e.toString());
+                    }
+                });
+
+            });
+        })(jQuery);
 
     </script>
 </head>
@@ -90,7 +120,7 @@
 </div>
 
 <div id="editor-frame">
-    <div id="editor" contentEditable="true"></div>
+    <pre id="editor" contentEditable="true" hidefocus="hidefocus"></pre>
 </div>
 
 
